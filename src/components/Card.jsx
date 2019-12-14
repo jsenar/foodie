@@ -8,6 +8,7 @@ const CardContainer = styled.div`
   width: ${cardWidth};
   box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
   border-radius: 12px 12px 0px 0px;
+  border: 1px solid #676767
 `;
 
 const Square = styled.div`
@@ -28,11 +29,15 @@ const DetailRow = styled.div`
   justify-content: space-between;
 `;
 
+const Info = styled.div`
+  margin: 8px 8px;  
+`;
+
 const Name = styled.h3`
   color: red;
 `;
 
-export const Card = (props) => {
+export default function Card(props) {
   const { restaurant } = props;
   const { name, rating, price, review_count: reviewCount, photos} = restaurant;
   return (
@@ -40,12 +45,14 @@ export const Card = (props) => {
       <Square>
         <Img src={photos[0]}/>
       </Square>
-      <Name>{name}</Name>
-      <DetailRow>
-        <span>{rating} stars</span>
-        <span>{price}</span>
-        <span>{reviewCount} reviews</span>
-      </DetailRow>
+      <Info>
+        <Name>{name}</Name>
+        <DetailRow>
+          <span>{rating} stars</span>
+          <span>{price}</span>
+          <span>{reviewCount} reviews</span>
+        </DetailRow>
+      </Info>
     </CardContainer>
   );
 }
