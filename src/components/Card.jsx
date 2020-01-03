@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const cardWidth = '400px'
+const cardWidth = '400px';
 
 const CardContainer = styled.div`
   width: ${cardWidth};
@@ -40,6 +40,11 @@ const Name = styled.h3`
 export default function Card(props) {
   const { restaurant } = props;
   const { name, rating, price, review_count: reviewCount, photos} = restaurant;
+
+  /* useEffect(() => {
+    trigger some animation
+  }, [restaurant]) */
+
   return (
     <CardContainer>
       <Square>

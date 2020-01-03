@@ -1,23 +1,40 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import Card from './Card';
 
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Deck = styled.div`
+  width: 400px;
+`;
+
 export default function CardDeck(props) {
-  const { restaurants } = props;
+  const { restaurants, size } = props;
   let [currentIdx, setCurrentIdx] = useState(0);
   let restaurant = restaurants[currentIdx];
 
   if (restaurant) {
     return (
-      <div>
+      <Deck>
         <Card restaurant={restaurant} />
-        <button
-          onClick={() => setCurrentIdx((idx) => idx + 1)}
-          >
-          Like
-        </button>
-      </div>
+        
+        <ButtonRow>
+          <button
+            onClick={() => setCurrentIdx((idx) => idx + 1)}
+            >
+            Dislike
+          </button>
+          <button
+            onClick={() => setCurrentIdx((idx) => idx + 1)}
+            >
+            Like
+          </button>
+        </ButtonRow>
+      </Deck>
     );
   }
 
