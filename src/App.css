@@ -20,3 +20,21 @@
 .App-link {
   color: #09d3ac;
 }
+
+.card-enter {
+  opacity: 0;
+}
+.card-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.card-exit {
+  opacity: 1;
+}
+.card-exit-active {
+  position: absolute;
+  margin-left: 500px;
+  top: 0;
+  opacity: 0;
+  transition: opacity 300ms ease-in, margin-left 300ms ease-out;
+}

@@ -9,6 +9,8 @@ const ButtonRow = styled.div`
 `;
 
 const Deck = styled.div`
+  position: relative;
+  margin: auto;
   width: 400px;
 `;
 

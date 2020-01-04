@@ -7,6 +7,7 @@ import { data } from './testData'
 function App() {
   return (
     <div className="App">
+      <h1>PLACEHOLDER</h1>
       <CardDeck restaurants={data} />
     </div>
   );
