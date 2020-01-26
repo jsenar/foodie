@@ -31,9 +31,17 @@
 .card-exit {
   opacity: 1;
 }
-.card-exit-active {
+.card-right-exit-active {
   position: absolute;
   margin-left: 500px;
+  top: 0;
+  opacity: 0;
+  transition: opacity 300ms ease-in, margin-left 300ms ease-out;
+}
+
+.card-left-exit-active {
+  position: absolute;
+  margin-left: -500px;
   top: 0;
   opacity: 0;
   transition: opacity 300ms ease-in, margin-left 300ms ease-out;

@@ -7,7 +7,8 @@ import { data } from './testData'
 function App() {
   return (
     <div className="App">
-      <h1>PLACEHOLDER</h1>
+      <h1>Foodie</h1>
+      <p>Select the restaurants you would like to save</p>
       <CardDeck restaurants={data} />
     </div>
   );

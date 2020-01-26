@@ -10,7 +10,7 @@ const CardContainer = styled.div`
   width: ${cardWidth};
   box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
   border-radius: 12px 12px 0px 0px;
-  border: 1px solid #676767
+  border: 1px solid #676767;
 `;
 
 const Square = styled.div`
@@ -40,7 +40,7 @@ const Name = styled.h3`
 `;
 
 export default function Card(props) {
-  const { restaurant } = props;
+  const { restaurant, liked, disliked } = props;
   const { name, alias, rating, price, review_count: reviewCount, photos} = restaurant;
 
   /* useEffect(() => {
@@ -48,12 +48,6 @@ export default function Card(props) {
   }, [restaurant]) */
 
   return (
-    <TransitionGroup>
-      <CSSTransition
-        key={alias}
-        timeout={500}
-        classNames="card"
-      >
         <CardContainer>
           <Square>
             <Img src={photos[0]}/>
@@ -67,8 +61,6 @@ export default function Card(props) {
             </DetailRow>
           </Info>
         </CardContainer>
-      </CSSTransition>
-    </TransitionGroup>
   );
 }
 
