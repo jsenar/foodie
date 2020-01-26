@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
 
 const cardWidth = '400px';
 
@@ -41,26 +39,22 @@ const Name = styled.h3`
 
 export default function Card(props) {
   const { restaurant, liked, disliked } = props;
-  const { name, alias, rating, price, review_count: reviewCount, photos} = restaurant;
-
-  /* useEffect(() => {
-    trigger some animation
-  }, [restaurant]) */
+  const { name, rating, price, review_count: reviewCount, photos} = restaurant;
 
   return (
-        <CardContainer>
-          <Square>
-            <Img src={photos[0]}/>
-          </Square>
-          <Info>
-            <Name>{name}</Name>
-            <DetailRow>
-              <span>{rating} stars</span>
-              <span>{price}</span>
-              <span>{reviewCount} reviews</span>
-            </DetailRow>
-          </Info>
-        </CardContainer>
+    <CardContainer>
+      <Square>
+        <Img src={photos[0]}/>
+      </Square>
+      <Info>
+        <Name>{name}</Name>
+        <DetailRow>
+          <span>{rating} stars</span>
+          <span>{price}</span>
+          <span>{reviewCount} reviews</span>
+        </DetailRow>
+      </Info>
+    </CardContainer>
   );
 }
 

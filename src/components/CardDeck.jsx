@@ -5,8 +5,9 @@ import Card from './Card';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
-const ButtonRow = styled.div`
+const Row = styled.div`
   display: flex;
+  margin-top: 8px;
   justify-content: space-between;
 `;
 
@@ -16,10 +17,24 @@ const Deck = styled.div`
   width: 400px;
 `;
 
-function Buttons({ setCurrentIdx, setLiked, setDisliked }) {
+const Button = styled.button`
+  height: 50px;
+  background: none;
+  background-color: ${props => props.isLike ? '#3d9eff' : '#f27278'};
+	color: white;
+  border: 1px solid;
+  border-radius: 4px;
+	padding: 8px 16px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+`;
+
+function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
   return (
-    <ButtonRow>
-      <button
+    <Row>
+      <Button
+        isLike={false}
         onClick={async () => {
           await setDisliked(true);
           await setLiked(false);
@@ -27,8 +42,9 @@ function Buttons({ setCurrentIdx, setLiked, setDisliked }) {
         }}
         >
         Dislike
-      </button>
-      <button
+      </Button>
+      <Button
+        isLike={true}
         onClick={async () => {
         await setLiked(true);
         await setDisliked(false);
@@ -36,8 +52,8 @@ function Buttons({ setCurrentIdx, setLiked, setDisliked }) {
       }}
         >
         Like
-      </button>
-    </ButtonRow>
+      </Button>
+    </Row>
   );
 }
 
@@ -66,7 +82,7 @@ export default function CardDeck(props) {
 
       { 
         restaurant ?
-        <Buttons setCurrentIdx={setCurrentIdx} setLiked={setLiked} setDisliked={setDisliked}/> :
+        <ButtonRow setCurrentIdx={setCurrentIdx} setLiked={setLiked} setDisliked={setDisliked}/> :
         null 
       }
     </Deck>
