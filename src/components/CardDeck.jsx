@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card';
+import Button from './Button';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 
@@ -17,24 +18,11 @@ const Deck = styled.div`
   width: 400px;
 `;
 
-const Button = styled.button`
-  height: 50px;
-  background: none;
-  background-color: ${props => props.isLike ? '#3d9eff' : '#f27278'};
-	color: white;
-  border: 1px solid;
-  border-radius: 4px;
-	padding: 8px 16px;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-`;
-
 function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
   return (
     <Row>
       <Button
-        isLike={false}
+        mode="tertiary"
         onClick={async () => {
           await setDisliked(true);
           await setLiked(false);
@@ -44,7 +32,6 @@ function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
         Dislike
       </Button>
       <Button
-        isLike={true}
         onClick={async () => {
         await setLiked(true);
         await setDisliked(false);

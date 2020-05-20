@@ -1,0 +1,38 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const ButtonStyle = styled.button`
+  height: 50px;
+  background: none;
+  background-color: ${props => props.bgColor};
+	color: ${props => props.textColor};
+  border: 1px solid ${props => props.borderColor};
+  border-radius: 4px;
+	padding: 8px 16px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+`;
+
+function getColors(mode) {
+  switch (mode) {
+    case 'secondary': //transparent
+      return { bgColor: 'transparent', borderColor: '#3d9eff', textColor: '#3d9eff' };
+    case 'tertiary': //red
+      return { bgColor: '#f27278', borderColor: '#f27278', textColor: 'white' };
+    case 'primary': //blue
+    default:
+      return { bgColor: '#3d9eff', borderColor: '#3d9eff', textColor: 'white' };
+  }
+}
+
+export function Button(props) {
+  const { bgColor, borderColor, textColor} = getColors(props.mode);
+  return (
+    <ButtonStyle bgColor={bgColor} borderColor={borderColor} textColor={textColor}>
+      {props.children}
+    </ButtonStyle>
+  );
+}
+
+export default Button;
