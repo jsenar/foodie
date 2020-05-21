@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ButtonStyle = styled.button`
-  height: 50px;
   background: none;
   background-color: ${props => props.bgColor};
 	color: ${props => props.textColor};
   border: 1px solid ${props => props.borderColor};
   border-radius: 4px;
-	padding: 8px 16px;
+	padding: 0.5em 1em;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
@@ -29,7 +28,12 @@ function getColors(mode) {
 export function Button(props) {
   const { bgColor, borderColor, textColor} = getColors(props.mode);
   return (
-    <ButtonStyle bgColor={bgColor} borderColor={borderColor} textColor={textColor}>
+    <ButtonStyle 
+      {...props}
+      bgColor={bgColor}
+      borderColor={borderColor}
+      textColor={textColor}
+    >
       {props.children}
     </ButtonStyle>
   );

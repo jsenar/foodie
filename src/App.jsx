@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Switch,
+  Route
+} from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
 import CardDeck from './components/CardDeck';
@@ -9,10 +13,15 @@ function App() {
   return (
     <div className="App">
       <h1>Foodie</h1>
-      <Search />
-      
-      <p>Select the restaurants you would like to save</p>
-      <CardDeck restaurants={data} />
+      <Switch>
+        <Route path='/group'>
+          <CardDeck restaurants={data} />
+        </Route>
+
+        <Route path='/'>
+          <Search />
+        </Route>
+      </Switch>
     </div>
   );
 }
