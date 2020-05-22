@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
       "name": "The Cork and Craft",
       "alias": "the-cork-and-craft-san-diego-5",
@@ -75,3 +75,5 @@ export const data = [
       "url": "https://www.yelp.com/biz/cowboy-chicken-san-diego-6?adjust_creative=OLKhy180PkQ8-IL15VREeQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_graphql&utm_source=OLKhy180PkQ8-IL15VREeQ"
   }
 ]
+
+module.exports.data = data;

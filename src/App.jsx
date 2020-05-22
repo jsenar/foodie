@@ -5,17 +5,16 @@ import {
 } from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
-import CardDeck from './components/CardDeck';
+import Group from './components/Group';
 import Search from './components/Search'
-import { data } from './testData'
 
 function App() {
   return (
     <div className="App">
       <h1>Foodie</h1>
       <Switch>
-        <Route path='/group'>
-          <CardDeck restaurants={data} />
+        <Route path='/groups/:groupId'>
+          <Group />
         </Route>
 
         <Route path='/'>

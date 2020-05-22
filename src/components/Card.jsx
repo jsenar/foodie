@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -38,7 +38,7 @@ const Name = styled.h3`
 `;
 
 export default function Card(props) {
-  const { restaurant, liked, disliked } = props;
+  const { restaurant } = props;
   const { name, rating, price, review_count: reviewCount, photos} = restaurant;
 
   return (

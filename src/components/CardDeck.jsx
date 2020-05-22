@@ -45,7 +45,7 @@ function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
 }
 
 export default function CardDeck(props) {
-  const { restaurants, size } = props;
+  const { restaurants } = props;
   let [currentIdx, setCurrentIdx] = useState(0);
   let [liked, setLiked] = useState(false);
   let [disliked, setDisliked] = useState(false);
