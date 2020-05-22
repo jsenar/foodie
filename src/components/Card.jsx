@@ -8,7 +8,7 @@ const CardContainer = styled.div`
   width: ${cardWidth};
   box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
   border-radius: 12px 12px 0px 0px;
-  border: 1px solid #676767;
+  border: 1px solid #dedede;
 `;
 
 const Square = styled.div`

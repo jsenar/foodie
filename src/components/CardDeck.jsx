@@ -8,7 +8,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const Row = styled.div`
   display: flex;
-  margin-top: 8px;
+  margin-top: 1.5em;
   justify-content: space-between;
 `;
 

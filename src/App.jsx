@@ -3,10 +3,10 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import logo from './logo.svg';
 import './App.css';
 import Group from './components/Group';
-import Search from './components/Search'
+import Search from './components/Search';
+import GroupSearch from './components/GroupSearch';
 
 function App() {
   return (
@@ -15,6 +15,10 @@ function App() {
       <Switch>
         <Route path='/groups/:groupId'>
           <Group />
+        </Route>
+        
+        <Route path='/groups'>
+          <GroupSearch />
         </Route>
 
         <Route path='/'>
