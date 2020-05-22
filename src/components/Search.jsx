@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Button from './Button';
 
@@ -41,32 +42,89 @@ const Form = styled.form`
   }
 `;
 
-export function Search() {
+function PriceCheckbox({value, onChange, prices}) {
   return (
-    <Form>
+    <React.Fragment>
+      <label htmlFor={`price${value}`}>{'$'.repeat(value)}</label>
+      <input
+        type="checkbox"
+        name={`price${value}`}
+        value={value}
+        checked={prices.includes(value)}
+        onChange={onChange}
+      />
+    </React.Fragment>
+  );
+}
+
+export function Search() {
+  const [search, setSearch] = useState('');
+  const [location, setLocation] = useState('');
+  const [prices, setPrices] = useState([]);
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const priceString = prices.join(', ')
+    console.log(search, priceString, location)
+    const locale = 'en_US';
+    
+    axios.post('/api/search', {
+      term: search,
+      location,
+      locale
+    }).then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  const handlePriceChange = (event) => {
+    const { value } = event.target;
+    setPrices(prices => {
+      if (prices.includes(value)) {
+        return prices.filter((price) => price !== value);
+      } else {
+        return [...prices, value].sort()
+      }
+    })
+  }
+
+  return (
+    <Form onSubmit={handleSearch}>
       <div className="searchBar">
         <span>
           <label htmlFor="search">Find </label>
-          <input id="search" type="text" placeholder="Asian restaurants"/>
+          <input 
+            name="search"
+            id="search"
+            type="text"
+            placeholder="Asian restaurants"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </span>
         {/**TODO: replace with geosuggestion component */}
         <span>
           <label htmlFor="location"> Near </label>
-          <input id="location" type="text" placeholder="San Diego, CA 92122"/>
+          <input
+            name="location"
+            id="location"
+            type="text"
+            placeholder="San Diego, CA 92122"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
         </span>
 
         <Button type="submit">Search</Button>
       </div>
 
       <div className="prices">
-        <label htmlFor="price1"> $</label>
-        <input type="checkbox" name="price1" value="1"/>
-        <label htmlFor="price2"> $$</label>
-        <input type="checkbox" name="price2" value="2"/>
-        <label htmlFor="price3"> $$$</label>
-        <input type="checkbox" name="price3" value="3"/>
-        <label htmlFor="price3"> $$$$</label>
-        <input type="checkbox" name="price4" value="4"/>
+        <PriceCheckbox value="1" prices={prices} onChange={handlePriceChange} />
+        <PriceCheckbox value="2" prices={prices} onChange={handlePriceChange} />
+        <PriceCheckbox value="3" prices={prices} onChange={handlePriceChange} />
+        <PriceCheckbox value="4" prices={prices} onChange={handlePriceChange} />
       </div>
     </Form>
   )
