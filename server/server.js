@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express')
 
 // Import middleware
@@ -6,9 +8,11 @@ const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors')
+const YelpGraphQL = require('yelp-graphql');
 
 // Import routes
 const groupRouter = require('./routes/group-route')
+const searchRouter = require('./routes/search-route')
 
 // Setup default port
 const PORT = process.env.PORT || 4000
@@ -34,8 +38,10 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') {
 // Implement route for '/users' endpoint
 // ! Note:
 // '/users' will prefix all post routes
-// with '/users' => '/all' will become '/users/all'
+// with '/users' => '/asll' will become '/users/all'
 app.use('/api/group', groupRouter)
+
+app.use('/api/search', searchRouter)
 
 // Implement route for errors
 app.use((err, req, res, next) => {
