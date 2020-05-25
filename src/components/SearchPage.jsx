@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import { parse } from 'query-string';
+import { useLocation, useHistory } from 'react-router-dom';
+import { parse, stringify } from 'query-string';
+import { useSearch } from '../hooks/useSearch';
 import Button from './Button';
+import SearchForm from './SearchForm';
 
 const ListItem = styled.li`
   text-align: left;
@@ -61,16 +63,21 @@ function Business({business}) {
 }
 
 export function SearchPage() {
-  const { search } = useLocation();    
+  const history = useHistory();
+  const location = useLocation();    
+  const { price, ...init } = parse(location.search);
+  
+  const [ searchState, dispatch ] = useSearch(
+    { ...init, price: (price && price.split(', '))}
+  );
+
   const [ businesses, setBusinesses ] = useState([]);
   const locale = 'en_US';
   
   useEffect(() => {
-    const parsedSearch = parse(search);
-    const isCurrent = true;
+    let isCurrent = true;
 
-    axios.post('/api/search', parsedSearch).then((res) => {
-      console.log(res)
+    axios.post('/api/search', { ...parse(location.search), locale }).then((res) => {
       if (isCurrent) {
         setBusinesses(res.data.search.business);
       }
@@ -81,14 +88,26 @@ export function SearchPage() {
     return (() => { 
       isCurrent = false;
     })
-  }, [search]);
+  }, [location]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const priceString = searchState.price.join(', ')
+
+    history.replace({
+      search: `?${stringify({...searchState, price: priceString }, { skipEmptyString: true })}`,
+    });
+  }
 
   return (
-    <ul style={{ 'list-style-type': 'none' }}>
-      {businesses.map((business) => (
-        <Business key={business.alias} business={business} />
-      ))}
-    </ul>
+    <React.Fragment>
+      <SearchForm search={searchState} dispatch={dispatch} onSubmit={handleSubmit}/>
+      <ul style={{ 'listStyleType': 'none' }}>
+        {businesses.map((business) => (
+          <Business key={business.alias} business={business} />
+        ))}
+      </ul>
+    </React.Fragment>
   );
 }
 

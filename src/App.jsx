@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Group from './components/Group';
-import Search from './components/Search';
+import HomePage from './components/HomePage';
 import SearchPage from './components/SearchPage';
 import GroupSearch from './components/GroupSearch';
 
@@ -28,7 +28,7 @@ function App() {
 
         <Route path='/'>
           <h3>Search for Restaurants and Create a Group</h3>
-          <Search />
+          <HomePage />
         </Route>
       </Switch>
     </div>
