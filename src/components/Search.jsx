@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { stringify } from 'query-string';
 import Button from './Button';
 
 const Form = styled.form`
@@ -42,7 +44,7 @@ const Form = styled.form`
   }
 `;
 
-function PriceCheckbox({value, onChange, prices}) {
+function PriceCheckbox({value, onChange, price}) {
   return (
     <React.Fragment>
       <label htmlFor={`price${value}`}>{'$'.repeat(value)}</label>
@@ -50,7 +52,7 @@ function PriceCheckbox({value, onChange, prices}) {
         type="checkbox"
         name={`price${value}`}
         value={value}
-        checked={prices.includes(value)}
+        checked={price.includes(value)}
         onChange={onChange}
       />
     </React.Fragment>
@@ -58,75 +60,96 @@ function PriceCheckbox({value, onChange, prices}) {
 }
 
 export function Search() {
-  const [search, setSearch] = useState('');
-  const [location, setLocation] = useState('');
-  const [prices, setPrices] = useState([]);
+  const history = useHistory();
+  const [search, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case "CHANGE_TERM":
+        return {...state, term: action.term}
+      case "CHANGE_LOCATION":
+        return {...state, location: action.location}
+      case "CHANGE_PRICE":
+        return {...state, price: action.price}
+      default:
+        throw new Error();
+    }
+  }, {
+    term: '',
+    location: '',
+    price: [],
+  });
   
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const priceString = prices.join(', ')
-    console.log(search, priceString, location)
-    const locale = 'en_US';
-    
-    axios.post('/api/search', {
-      term: search,
-      location,
-      locale
-    }).then((res) => {
-      console.log(res)
-    }).catch((err) => {
-      console.log(err);
+  const handleSearch = (history, e) => {
+    console.log(e)
+    const priceString = search.price.join(', ')
+
+    history.push({
+      pathname: '/search',
+      search: `?${stringify({ ...search, price: priceString }, { skipEmptyString: true })}`,
     });
+    
+    // axios.get('/search', {
+    //   term: search,
+    //   location,
+    //   locale,
+    //   price: priceString,
+    // }).then((res) => {
+    //   console.log(res)
+    //   setRestaurants(res.data.search.business);
+    // }).catch((err) => {
+    //   console.log(err);
+    // });
   }
 
   const handlePriceChange = (event) => {
     const { value } = event.target;
-    setPrices(prices => {
-      if (prices.includes(value)) {
-        return prices.filter((price) => price !== value);
-      } else {
-        return [...prices, value].sort()
-      }
-    })
+    const { price } = search;
+
+    if (price.includes(value)) {
+      dispatch({ type: "CHANGE_PRICE", price: price.filter((priceItem) => priceItem !== value)});
+    } else {
+      dispatch({ type: "CHANGE_PRICE", price: [...price, value].sort() }); 
+    }
   }
 
   return (
-    <Form onSubmit={handleSearch}>
-      <div className="searchBar">
-        <span>
-          <label htmlFor="search">Find </label>
-          <input 
-            name="search"
-            id="search"
-            type="text"
-            placeholder="Asian restaurants"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </span>
-        {/**TODO: replace with geosuggestion component */}
-        <span>
-          <label htmlFor="location"> Near </label>
-          <input
-            name="location"
-            id="location"
-            type="text"
-            placeholder="San Diego, CA 92122"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </span>
+    <React.Fragment>
+      <Form onSubmit={(e) => handleSearch(history, e)}>
+        <div className="searchBar">
+          <span>
+            <label htmlFor="search">Find </label>
+            <input 
+              name="search"
+              id="search"
+              type="text"
+              placeholder="Asian restaurants"
+              value={search.term}
+              onChange={(e) => dispatch({ type: "CHANGE_TERM", term: e.target.value })}
+            />
+          </span>
+          {/**TODO: replace with geosuggestion component */}
+          <span>
+            <label htmlFor="location"> Near </label>
+            <input
+              name="location"
+              id="location"
+              type="text"
+              placeholder="San Diego, CA 92122"
+              value={search.location}
+              onChange={(e) => dispatch({ type: "CHANGE_LOCATION", location: e.target.value })}
+            />
+          </span>
 
-        <Button type="submit">Search</Button>
-      </div>
+          <Button type="submit">Search</Button>
+        </div>
 
-      <div className="prices">
-        <PriceCheckbox value="1" prices={prices} onChange={handlePriceChange} />
-        <PriceCheckbox value="2" prices={prices} onChange={handlePriceChange} />
-        <PriceCheckbox value="3" prices={prices} onChange={handlePriceChange} />
-        <PriceCheckbox value="4" prices={prices} onChange={handlePriceChange} />
-      </div>
-    </Form>
+        <div className="prices">
+          <PriceCheckbox value="1" price={search.price} onChange={handlePriceChange} />
+          <PriceCheckbox value="2" price={search.price} onChange={handlePriceChange} />
+          <PriceCheckbox value="3" price={search.price} onChange={handlePriceChange} />
+          <PriceCheckbox value="4" price={search.price} onChange={handlePriceChange} />
+        </div>
+      </Form>
+    </React.Fragment>
   )
 }
 

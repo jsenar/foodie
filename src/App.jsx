@@ -6,13 +6,14 @@ import {
 import './App.css';
 import Group from './components/Group';
 import Search from './components/Search';
+import SearchPage from './components/SearchPage';
 import GroupSearch from './components/GroupSearch';
 
 function App() {
   return (
     <div className="App">
       <h1>Foodie</h1>
-      <Switch>
+      <Switch>    
         <Route path='/groups/:groupId'>
           <Group />
         </Route>
@@ -21,7 +22,12 @@ function App() {
           <GroupSearch />
         </Route>
 
+        <Route path='/search'>
+          <SearchPage />
+        </Route>
+
         <Route path='/'>
+          <h3>Search for Restaurants and Create a Group</h3>
           <Search />
         </Route>
       </Switch>

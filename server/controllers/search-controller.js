@@ -7,9 +7,8 @@ const apiKey = process.env.YELP_KEY
 let yelp = new YelpGraphQL({ apiKey });
 
 exports.search = (req, res) => {
-  console.log('HEYYYYY')
-  const query = `query Search($term: String, $location: String){
-    search(term: $term, limit: 5, location: $location) {
+  const query = `query Search($term: String, $location: String, $price: String){
+    search(term: $term, limit: 10, location: $location, price: $price) {
       business {
         name
         alias
@@ -26,7 +25,12 @@ exports.search = (req, res) => {
     }
   }`;
 
-  const variables = { term: `${req.body.term} restaurants`, location: req.body.location };
+  const variables = { 
+    term: `${req.body.term} restaurants`,
+    location: req.body.location,
+    price: req.body.price,
+  };
+
   const locale = req.body.locale;
   // Query Yelp
   yelp.query({ locale, query, variables }).then( (response) => {
