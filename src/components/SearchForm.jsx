@@ -9,13 +9,23 @@ const Form = styled.form`
 
   .searchBar {
     display: flex;
+    flex-wrap: wrap;
     margin: auto;
     align-items: center;
     justify-content: center;
 
+    @media only screen and (max-width: 650px) {
+      flex-direction: column;
+      height: 7em;
+      justify-content: space-between;
+    }
+
     span {
+      display: flex;
+      align-items: center;
       padding-left: 0.2em;
       border: 1px solid #ababab;
+      border-radius: 3px;
     }
 
     input {
@@ -31,10 +41,6 @@ const Form = styled.form`
     label {
       font-size: 120%;
       font-weight: 500;
-    }
-
-    button {
-
     }
   }
 

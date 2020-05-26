@@ -17,6 +17,10 @@ const ListItem = styled.li`
   justify-content: space-between;
   align-items: center;
 
+  @media only screen and (max-width: 650px) {
+    font-size: 80%;
+  }
+
   img {
     height: 8em;
     width: 8em;
@@ -29,13 +33,17 @@ const ListItem = styled.li`
 
     .name {
       max-width: 15em;
+
+      @media only screen and (max-width: 650px) {
+        max-width: 10em;
+      }
     }
   }
 
   .rightContent {
     font-size: 0.8em;
     line-height: 1em;
-    margin-right: 2em;
+    margin-right: 1em;
     max-width: 20em;
   }
 `;
@@ -102,7 +110,7 @@ export function SearchPage() {
   return (
     <React.Fragment>
       <SearchForm search={searchState} dispatch={dispatch} onSubmit={handleSubmit}/>
-      <ul style={{ 'listStyleType': 'none' }}>
+      <ul style={{ 'listStyleType': 'none', 'padding': '0' }}>
         {businesses.map((business) => (
           <Business key={business.alias} business={business} />
         ))}
