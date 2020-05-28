@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { parse, stringify } from 'query-string';
 import { useSearch } from '../hooks/useSearch';
 import Button from './Button';
 import SearchForm from './SearchForm';
+import { CartContext } from '../lib/CartContext';
 
 const ListItem = styled.li`
   text-align: left;
@@ -48,34 +49,13 @@ const ListItem = styled.li`
   }
 `;
 
-function Business({business}) { 
-  let {name, photos, rating, review_count, url, price} = business;
-
-  return (
-    <ListItem>
-      <div className='leftContent'>
-        <img alt={name} src={photos[0]} />
-        <div className='name'>
-          <h3>{name}</h3>
-          <p>{price}</p>
-        </div>
-      </div>
-      <div className='rightContent'>
-        <p>{rating} stars </p>
-        <p>{review_count} reviews</p>
-        <p><a target="_blank" rel="noopener noreferrer" href={url}>View on Yelp</a></p>
-        <Button>Add</Button>
-      </div>
-    </ListItem>
-  )
-}
-
 export function SearchPage() {
   const history = useHistory();
   const location = useLocation();    
+  const { cart, dispatchCart } = useContext(CartContext);
   const { price, ...init } = parse(location.search);
   
-  const [ searchState, dispatch ] = useSearch(
+  const [ searchState, dispatchSearch ] = useSearch(
     { ...init, price: (price && price.split(', '))}
   );
 
@@ -109,10 +89,31 @@ export function SearchPage() {
 
   return (
     <React.Fragment>
-      <SearchForm search={searchState} dispatch={dispatch} onSubmit={handleSubmit}/>
+      <SearchForm search={searchState} dispatch={dispatchSearch} onSubmit={handleSubmit}/>
       <ul style={{ 'listStyleType': 'none', 'padding': '0' }}>
         {businesses.map((business) => (
-          <Business key={business.alias} business={business} />
+          <ListItem key={business}>
+            <div className='leftContent'>
+              <img alt={business.name} src={business.photos[0]} />
+              <div className='name'>
+                <h3>{business.name}</h3>
+                <p>{business.price}</p>
+              </div>
+            </div>
+            <div className='rightContent'>
+              <p>{business.rating} stars </p>
+              <p>{business.review_count} reviews</p>
+              <p><a target="_blank" rel="noopener noreferrer" href={business.url}>View on Yelp</a></p>
+              <Button 
+                disabled={cart.find(item => item.alias === business.alias)}
+                onClick={() => {
+                  dispatchCart({type: "CART_ADD", business})
+                }}
+              >
+                Add
+              </Button>
+            </div>
+          </ListItem>
         ))}
       </ul>
     </React.Fragment>

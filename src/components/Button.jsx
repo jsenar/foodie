@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 const ButtonStyle = styled.button`
   background: none;
-  background-color: ${props => props.bgColor};
+  background-color: ${props => props.disabled ? '#bcbcbc' : props.bgColor};
 	color: ${props => props.textColor};
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.disabled ? '#bcbcbc' : props.borderColor};
   border-radius: 4px;
 	padding: 0.5em 1em;
 	font: inherit;
-	cursor: pointer;
+	cursor: ${props => props.disabled ? 'normal' : 'pointer'};
 	outline: inherit;
 `;
 
