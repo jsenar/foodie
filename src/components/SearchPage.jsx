@@ -65,13 +65,15 @@ export function SearchPage() {
   useEffect(() => {
     let isCurrent = true;
 
-    axios.post('/api/search', { ...parse(location.search), locale }).then((res) => {
-      if (isCurrent) {
-        setBusinesses(res.data.search.business);
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    if (location.search) {
+      axios.post('/api/search', { ...parse(location.search), locale }).then((res) => {
+        if (isCurrent) {
+          setBusinesses(res.data.search.business);
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
 
     return (() => { 
       isCurrent = false;
@@ -92,7 +94,7 @@ export function SearchPage() {
       <SearchForm search={searchState} dispatch={dispatchSearch} onSubmit={handleSubmit}/>
       <ul style={{ 'listStyleType': 'none', 'padding': '0' }}>
         {businesses.map((business) => (
-          <ListItem key={business}>
+          <ListItem key={business.alias}>
             <div className='leftContent'>
               <img alt={business.name} src={business.photos[0]} />
               <div className='name'>

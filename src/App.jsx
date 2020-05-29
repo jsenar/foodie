@@ -1,13 +1,15 @@
 import React from 'react';
 import {
   Switch,
-  Route
+  Route,
+  NavLink,
 } from "react-router-dom";
 import './App.css';
 import Group from './components/Group';
 import HomePage from './components/HomePage';
 import SearchPage from './components/SearchPage';
 import GroupSearch from './components/GroupSearch';
+import NavBar from './components/NavBar';
 import { CartContext, useCart } from './lib/CartContext';
 
 function App() {
@@ -15,8 +17,11 @@ function App() {
 
   return (
     <CartContext.Provider value={{ cart, dispatchCart }}>
+      <NavBar homeLink={(<NavLink to='/'>Foodie</NavLink>)}>
+        <NavLink to='/search' activeClassName="selected">Search</NavLink>
+        <NavLink to='/groups' activeClassName="selected">Groups</NavLink>
+      </NavBar>
       <div className="App">
-        <h1>Foodie</h1>
         <Switch>    
           <Route path='/groups/:groupId'>
             <Group />
