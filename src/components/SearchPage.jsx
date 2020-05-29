@@ -52,6 +52,7 @@ const ListItem = styled.li`
 export function SearchPage() {
   const history = useHistory();
   const location = useLocation();    
+  const [loading, setLoading] = useState(false);
   const { cart, dispatchCart } = useContext(CartContext);
   const { price, ...init } = parse(location.search);
   
@@ -66,12 +67,15 @@ export function SearchPage() {
     let isCurrent = true;
 
     if (location.search) {
+      setLoading(true);
       axios.post('/api/search', { ...parse(location.search), locale }).then((res) => {
         if (isCurrent) {
           setBusinesses(res.data.search.business);
         }
       }).catch((err) => {
         console.log(err);
+      }).finally(() => {
+        setLoading(false);
       });
     }
 
@@ -92,6 +96,7 @@ export function SearchPage() {
   return (
     <React.Fragment>
       <SearchForm search={searchState} dispatch={dispatchSearch} onSubmit={handleSubmit}/>
+      {loading ? <p>Searching...</p> : null}
       <ul style={{ 'listStyleType': 'none', 'padding': '0' }}>
         {businesses.map((business) => (
           <ListItem key={business.alias}>

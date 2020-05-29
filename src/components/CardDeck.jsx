@@ -15,7 +15,7 @@ const Row = styled.div`
 const Deck = styled.div`
   position: relative;
   margin: auto;
-  width: 400px;
+  width: 300px;
 `;
 
 function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {

@@ -2,39 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const cardWidth = '400px';
+const cardWidth = '300px';
 
 const CardContainer = styled.div`
   width: ${cardWidth};
   box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2);
   border-radius: 12px 12px 0px 0px;
   border: 1px solid #dedede;
-`;
 
-const Square = styled.div`
-  width: 100%;
-  height: ${cardWidth};
-  border-radius: inherit;
-`;
+  .square {
+    width: 100%;
+    height: ${cardWidth};
+    border-radius: inherit;
 
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
-`;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+  }
 
-const DetailRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+  .info {
+    margin: 8px 8px;  
 
-const Info = styled.div`
-  margin: 8px 8px;  
-`;
+    .detailRow {
+      display: flex;
+      justify-content: space-between;
+    }
 
-const Name = styled.h3`
-  color: red;
+    h3 {
+      color: red;
+      font-size: 1rem;
+      height: 3em;
+    }
+  }
 `;
 
 export default function Card(props) {
@@ -43,17 +45,17 @@ export default function Card(props) {
 
   return (
     <CardContainer>
-      <Square>
-        <Img src={photos[0]}/>
-      </Square>
-      <Info>
-        <Name>{name}</Name>
-        <DetailRow>
+      <div className="square">
+        <img src={photos[0]}/>
+      </div>
+      <div className="info">
+        <h3>{name}</h3>
+        <div className="detailRow">
           <span>{rating} stars</span>
           <span>{price}</span>
           <span>{reviewCount} reviews</span>
-        </DetailRow>
-      </Info>
+        </div>
+      </div>
     </CardContainer>
   );
 }
