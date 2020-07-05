@@ -2,13 +2,14 @@ require('dotenv').config();
 
 const express = require('express')
 
+const mongoose = require('mongoose');
+
 // Import middleware
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors')
-const YelpGraphQL = require('yelp-graphql');
 
 // Import routes
 const groupRouter = require('./routes/group-route')
@@ -19,6 +20,19 @@ const PORT = process.env.PORT || 4000
 
 // Create express app
 const app = express()
+
+// db setup
+const MONGO_URI = `mongodb://${process.env.DB_NAME}:${process.env.DB_PASS}@ds135519.mlab.com:35519/foodmatch`;
+if (!MONGO_URI) {
+  throw new Error('You must provide a MongoLab URI');
+}
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect(MONGO_URI, { useNewUrlParser: true })
+mongoose.connection
+  .once('open', () => console.log('Connected to MongoLab instance.'))
+  .on('error', error => console.log('Error connecting to MongoLab:', error));
 
 // Implement middleware
 app.use(cors())
@@ -35,10 +49,6 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') {
   })
 }
 
-// Implement route for '/users' endpoint
-// ! Note:
-// '/users' will prefix all post routes
-// with '/users' => '/asll' will become '/users/all'
 app.use('/api/group', groupRouter)
 
 app.use('/api/search', searchRouter)

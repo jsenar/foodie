@@ -39,14 +39,13 @@ const CardContainer = styled.div`
   }
 `;
 
-export default function Card(props) {
-  const { restaurant } = props;
+export default function Card({ restaurant }) {
   const { name, rating, price, review_count: reviewCount, photos} = restaurant;
 
   return (
     <CardContainer>
       <div className="square">
-        <img src={photos[0]}/>
+        <img alt={name} src={photos[0]}/>
       </div>
       <div className="info">
         <h3>{name}</h3>
@@ -64,6 +63,7 @@ Card.propTypes = {
   restaurant: PropTypes.shape({
     name: PropTypes.string,
     rating: PropTypes.number,
+    price: PropTypes.string,
     review_count: PropTypes.number,
     photos: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
