@@ -11,10 +11,6 @@ const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors')
 
-// Import routes
-const groupRouter = require('./routes/group-route')
-const searchRouter = require('./routes/search-route')
-
 // Setup default port
 const PORT = process.env.PORT || 4000
 
@@ -22,17 +18,23 @@ const PORT = process.env.PORT || 4000
 const app = express()
 
 // db setup
-const MONGO_URI = `mongodb://${process.env.DB_NAME}:${process.env.DB_PASS}@ds135519.mlab.com:35519/foodmatch`;
+const MONGO_URI = `mongodb://127.0.0.1/foodie`;
 if (!MONGO_URI) {
-  throw new Error('You must provide a MongoLab URI');
+  throw new Error('You must provide a mongodb URI');
 }
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 mongoose.connection
-  .once('open', () => console.log('Connected to MongoLab instance.'))
-  .on('error', error => console.log('Error connecting to MongoLab:', error));
+  .once('open', () => console.log('Connected to MongoDB instance.'))
+  .on('error', error => console.log('Error connecting to MongoDB:', error));
+
+require('./schema/groupSchema')
+
+  // Import routes
+const groupRouter = require('./routes/group-route')
+const searchRouter = require('./routes/search-route')
 
 // Implement middleware
 app.use(cors())

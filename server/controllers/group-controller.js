@@ -1,14 +1,27 @@
 const mongoose = require('mongoose');
 const shortid = require('shortid');
-const { data } = require('../../testData.js')
+const { data: testData } = require('../../testData.js')
+
+const Group = mongoose.model('group');
 
 // Create controller for GET request to '/users/all'
 exports.groupGet = (req, res) => {
   // res.send('There will be dragons, not posts.')
-  res.json(data)
-}
+  if (req.query.shortId === 'test') {
+    res.json(testData);
+  }
 
-const Group = mongoose.model('group');
+  Group.findOne({ 'shortId': req.query.shortId, function (err, group) {
+    console.log({group})
+    if (err) {
+      res.send(err);
+      return console.error(err);
+    } else {
+      res.send(group);
+    }
+  }})
+  res.err('No group was found')
+}
 
 exports.groupCreate = (req, res) => {
   const dateCreated = Date.now();

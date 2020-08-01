@@ -9,7 +9,11 @@ export default function Group() {
   let { groupId } = useParams();
 
   useEffect(() => {
-    axios.get('/api/group').then( async (res) => {
+    axios.get('/api/group', {
+      params: {
+        shortId: groupId
+      }
+    }).then( async (res) => {
       await setGroup(res.data);
       setLoading(false);
     }).catch((err) => {
