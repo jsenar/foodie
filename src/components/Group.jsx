@@ -4,29 +4,26 @@ import { useParams } from 'react-router-dom';
 import CardDeck  from './CardDeck';
 
 export default function Group() {
-  const [ group, setGroup ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
+  const [ group, setGroup ] = useState(null);
   let { groupId } = useParams();
 
   useEffect(() => {
-    axios.get('/api/group', {
-      params: {
-        shortId: groupId
-      }
-    }).then( async (res) => {
-      await setGroup(res.data);
-      setLoading(false);
-    }).catch((err) => {
-      setLoading(false);
-      console.log(err);
-    });
-  }, [groupId] );
+    (async () => {
+      const res = await axios.get('/api/group', {
+        params: {
+          shortId: groupId
+        }
+      });
+
+      setGroup(res.data);
+    })()
+  }, [groupId]);
 
   return (
     <React.Fragment>
-      {loading
+      {!group
         ? <p>Loading...</p>
-        : <CardDeck restaurants={group} />}
+        : <CardDeck restaurants={group.businesses} />}
     </React.Fragment>
   )
 }

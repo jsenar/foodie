@@ -5,27 +5,23 @@ const { data: testData } = require('../../testData.js')
 const Group = mongoose.model('group');
 
 // Create controller for GET request to '/users/all'
-exports.groupGet = (req, res) => {
+exports.groupGet = async (req, res) => {
   // res.send('There will be dragons, not posts.')
   if (req.query.shortId === 'test') {
     res.json(testData);
   }
 
-  Group.findOne({ 'shortId': req.query.shortId, function (err, group) {
-    console.log({group})
-    if (err) {
-      res.send(err);
-      return console.error(err);
-    } else {
-      res.send(group);
-    }
-  }})
-  res.err('No group was found')
+  const allGroups = await Group.find()
+  console.log(allGroups);
+
+  const group = await Group.findOne({ shortId: req.query.shortId }).exec();
+
+  res.send(group)
 }
 
 exports.groupCreate = (req, res) => {
   const dateCreated = Date.now();
-  const businesses = req.body.businesses;
+  const businesses = req.body.params.businesses;
 
   const shortId = shortid.generate();
   let group = new Group({shortId, dateCreated, businesses});

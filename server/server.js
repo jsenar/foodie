@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 4000
 const app = express()
 
 // db setup
-const MONGO_URI = `mongodb://127.0.0.1/foodie`;
+const MONGO_URI = `mongodb://localhost:27017/foodie`;
 if (!MONGO_URI) {
   throw new Error('You must provide a mongodb URI');
 }

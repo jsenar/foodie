@@ -9,6 +9,7 @@ import Group from './components/Group';
 import HomePage from './components/HomePage';
 import SearchPage from './components/SearchPage';
 import GroupSearch from './components/GroupSearch';
+import CartPage from './components/CartPage';
 import NavBar from './components/NavBar';
 import { CartContext, useCart } from './lib/CartContext';
 
@@ -20,6 +21,7 @@ function App() {
       <NavBar homeLink={(<NavLink to='/'>Foodie</NavLink>)}>
         <NavLink to='/search' activeClassName="selected">Search</NavLink>
         <NavLink to='/groups' activeClassName="selected">Groups</NavLink>
+        <NavLink to='/saved' activeClassName="selected">Saved</NavLink>
       </NavBar>
       <div className="App">
         <Switch>    
@@ -33,6 +35,10 @@ function App() {
 
           <Route path='/search'>
             <SearchPage />
+          </Route>
+
+          <Route path='/saved'>
+            <CartPage />
           </Route>
 
           <Route path='/'>

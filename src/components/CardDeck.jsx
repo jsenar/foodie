@@ -49,7 +49,7 @@ export default function CardDeck(props) {
   let [currentIdx, setCurrentIdx] = useState(0);
   let [liked, setLiked] = useState(false);
   let [disliked, setDisliked] = useState(false);
-  let restaurant = restaurants[currentIdx];
+  let restaurant = restaurants && restaurants[currentIdx];
 
   return (
     <Deck>

@@ -32,6 +32,11 @@ const Bar = styled.ul`
       text-decoration: none;
       color: white;
     }
+    
+    &:last-child {
+      position: absolute;
+      right: 0;
+    }
   }
 `;
 
