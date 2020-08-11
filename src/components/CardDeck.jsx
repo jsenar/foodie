@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card';
@@ -18,24 +19,20 @@ const Deck = styled.div`
   width: 300px;
 `;
 
-function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
+function ButtonRow({ setCurrentIdx, setLiked, handleUpdate }) {
   return (
     <Row>
       <Button
         mode="tertiary"
         onClick={async () => {
-          await setDisliked(true);
-          await setLiked(false);
-          setCurrentIdx((idx) => idx + 1);
+          handleUpdate(false);
         }}
         >
         Dislike
       </Button>
       <Button
         onClick={async () => {
-        await setLiked(true);
-        await setDisliked(false);
-        setCurrentIdx((idx) => idx + 1);
+        handleUpdate(true);
       }}
         >
         Like
@@ -45,11 +42,23 @@ function ButtonRow({ setCurrentIdx, setLiked, setDisliked }) {
 }
 
 export default function CardDeck(props) {
-  const { restaurants } = props;
+  const { restaurants, groupId } = props;
   let [currentIdx, setCurrentIdx] = useState(0);
   let [liked, setLiked] = useState(false);
-  let [disliked, setDisliked] = useState(false);
   let restaurant = restaurants && restaurants[currentIdx];
+
+  const handleUpdate = async (liked) => {
+    const increment = liked ? "LIKED" : "DISLIKED";
+    const res = await axios.post('/api/group/update', {
+      params: {
+        shortId: groupId,
+        alias: restaurant.alias,
+        increment
+      }
+    });
+    setLiked(liked);
+    setCurrentIdx((idx) => idx + 1);
+  }
 
   return (
     <Deck>
@@ -61,7 +70,7 @@ export default function CardDeck(props) {
         >
           { 
             restaurant ? 
-            <Card restaurant={restaurant} liked={liked} disliked={disliked}/> :
+            <Card restaurant={restaurant} liked={liked} handleUpdate={handleUpdate}/> :
             <p>No more restaurants</p>
           }
         </CSSTransition>
@@ -69,7 +78,7 @@ export default function CardDeck(props) {
 
       { 
         restaurant ?
-        <ButtonRow setCurrentIdx={setCurrentIdx} setLiked={setLiked} setDisliked={setDisliked}/> :
+        <ButtonRow setCurrentIdx={setCurrentIdx} setLiked={setLiked} handleUpdate={handleUpdate}/> :
         null 
       }
     </Deck>

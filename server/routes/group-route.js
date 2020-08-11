@@ -11,5 +11,6 @@ router.get('/', groupController.groupGet)
 
 router.post('/', groupController.groupCreate)
 
+router.post('/update', groupController.groupUpdate)
 // Export router
 module.exports = router

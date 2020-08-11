@@ -23,7 +23,7 @@ export default function Group() {
     <React.Fragment>
       {!group
         ? <p>Loading...</p>
-        : <CardDeck restaurants={group.businesses} />}
+        : <CardDeck restaurants={group.businesses} groupId={groupId} />}
     </React.Fragment>
   )
 }

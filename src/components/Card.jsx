@@ -39,7 +39,7 @@ const CardContainer = styled.div`
   }
 `;
 
-export default function Card({ restaurant }) {
+export default function Card({ restaurant, handleUpdate }) {
   const cardRef = useRef(null);
   const [startX, setStartX] = useState(null);
   const [startTime, setStartTime] = useState(null);
@@ -51,7 +51,8 @@ export default function Card({ restaurant }) {
     }
     
     const liked = xDiff > 0;
-    console.log({liked})
+    console.log(liked)
+    handleUpdate(liked);
   }
 
   const handleDragStart = (event) => {
