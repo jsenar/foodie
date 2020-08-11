@@ -80,7 +80,7 @@ CardDeck.propTypes = {
   restaurants: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      rating: PropTypes.number,
+      rating: PropTypes.string,
       review_count: PropTypes.number,
       photos: PropTypes.arrayOf(PropTypes.string),
     }).isRequired

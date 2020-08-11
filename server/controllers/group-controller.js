@@ -12,7 +12,6 @@ exports.groupGet = async (req, res) => {
   }
 
   const allGroups = await Group.find()
-  console.log(allGroups);
 
   const group = await Group.findOne({ shortId: req.query.shortId }).exec();
 

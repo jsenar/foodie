@@ -12,10 +12,10 @@ export default function CartPage() {
   useEffect(() => {
     if (shortId) {
       setTimeout(() => {
-        history.push(`/group/${shortId}`);
-      }, 2000)
+        history.push(`/groups/${shortId}`);
+      }, 500)
     }
-  })
+  }, [history, shortId])
 
   const handleCreate = async () => {
     const res = await axios.post('/api/group', {
@@ -24,7 +24,7 @@ export default function CartPage() {
       }
     });
 
-    setShortId(res.shortId);
+    setShortId(res.data && res.data.shortId);
   }
 
   if (!cart || cart.length < 1) {
